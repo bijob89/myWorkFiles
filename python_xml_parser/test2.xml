@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TermRenderingsList>
+  <Renderings>
+    <TermRendering>
+      <Id>Aaron</Id>
+      <Guess>false</Guess>
+      <Renderings>हारून</Renderings>
+      <Notes />
+      <Denials />
+      <Tag />
+    </TermRendering>
+    <TermRendering>
+      <Id>Abba</Id>
+      <Guess>false</Guess>
+      <Renderings>अब्बा</Renderings>
+      <Notes />
+      <Denials />
+      <Tag />
+    </TermRendering>
+    </Renderings>
+</TermRenderingsList>

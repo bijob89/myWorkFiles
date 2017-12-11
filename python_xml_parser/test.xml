@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BiblicalTermsList>
+  <Term Id="Abba">
+    <Transliteration>Abba</Transliteration>
+    <Language />
+    <Gloss>Abba</Gloss>
+    <References>
+      <Verse>04101403600</Verse>
+      <Verse>04500801500</Verse>
+      <Verse>04800400600</Verse>
+    </References>
+  </Term>
+  <Term Id="Beelzebul">
+    <Transliteration>Beelzebul</Transliteration>
+    <Language />
+    <Gloss>Beelzebul</Gloss>
+    <References>
+      <Verse>04001002500</Verse>
+      <Verse>04001202400</Verse>
+      <Verse>04001202700</Verse>
+      <Verse>04100302200</Verse>
+      <Verse>04201101500</Verse>
+      <Verse>04201101800</Verse>
+      <Verse>04201101900</Verse>
+    </References>
+  </Term>
+  </BiblicalTermsList>
