@@ -33,7 +33,9 @@ print(C1)
 print("-----------------------------------------------------------------")
 
 """Frequent-1-itemset"""
-
+# temp = []
+# for lst in D:
+    
 L1 = []
 for key in C1:
     if (100 * C1[key] / transactions) >= support:
@@ -44,10 +46,9 @@ print(L1)
 print("-----------------------------------------------------------------")
 
 """Frequent-k-itemset"""
+import pdb
 
-for item in D:
-    k = 2
-    Ck = {}
+
 j = 0
 while(j< 10):
     k = 2
@@ -56,15 +57,18 @@ while(j< 10):
     main_list = []
     for item in D:
         perm_list = list(itertools.permutations(item, r=k))
+        pdb.set_trace()
         for perm_item in perm_list:
-            main_list.append(sorted(list(perm_item)))            
-    comb_list = list(itertools.combinations(main_list, r=k))
-    for list1 in comb_list:
-        Ck[list1] = main_list.count(list1)
+            main_list.append('\t'.join(sorted(list(perm_item))))
+    
+    comb_list = list(set(main_list))
+    for item1 in comb_list:
+        Ck[item1] = main_list.count(item1)
+    
     for key in Ck:
         if (100 * Ck[key] / transactions) >= support:
             Lk.append([key])
-
+    
     if Lk != []:
         print("-------------------------CANDIDATE %d-ITEMSET---------------------" % k)
         print("Ck: %s" % Ck)
