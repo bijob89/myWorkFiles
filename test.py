@@ -9,13 +9,13 @@ except:
 # if add_value:
 #     print(add_value)
 
-f = open('student.csv', 'r')
+f = open('testing.csv', 'r')
 fc = f.read().strip()
 C1 = {}
 D = []
-transactions = 1        # to be made zero later
+transactions = 0        # to be made zero later
 for line in fc.split('\n'):
-    line_split = line.split()
+    line_split = line.split(',')
     # if 'Dalc=5' in line_split:
     transactions += 1
     D.append(line_split)
@@ -27,15 +27,13 @@ for line in fc.split('\n'):
             C1[word] = 1
     # else:
     #     continue
-
+print(len(D) == transactions)
 print("--------------------CANDIDATE 1-ITEMSET------------------------- ")
 print(C1)
 print("-----------------------------------------------------------------")
 
 """Frequent-1-itemset"""
-# temp = []
-# for lst in D:
-    
+
 L1 = []
 for key in C1:
     if (100 * C1[key] / transactions) >= support:
@@ -46,18 +44,17 @@ print(L1)
 print("-----------------------------------------------------------------")
 
 """Frequent-k-itemset"""
-import pdb
 
-
-j = 0
-while(j< 10):
-    k = 2
+k = 2
+L = []
+main_dict = {}
+while(True):
     Ck = {}
     Lk = []
     main_list = []
     for item in D:
-        perm_list = list(itertools.permutations(item, r=k))
-        pdb.set_trace()
+        perm_list = list(itertools.combinations(item, r=k))
+        
         for perm_item in perm_list:
             main_list.append('\t'.join(sorted(list(perm_item))))
     
@@ -67,13 +64,44 @@ while(j< 10):
     
     for key in Ck:
         if (100 * Ck[key] / transactions) >= support:
-            Lk.append([key])
-    
+            Lk.append(key.split('\t'))
     if Lk != []:
-        print("-------------------------CANDIDATE %d-ITEMSET---------------------" % k)
-        print("Ck: %s" % Ck)
-        print("------------------------------------------------------------------")
+        L += Lk
+        print("----------------------FREQUENT %d-ITEMSET-------------------------" % k)
+        print(Lk)
+        print("-----------------------------------------------------------------")
     else:
         break
+    main_dict['C' + str(k)] = Ck
     k += 1
-    j += 1
+
+print(L)
+
+num = 1
+for items in L:
+    length = len(items) - 1
+    if length > 1:
+            
+        temp_dict = {}
+        temp_dict = main_dict['C' + str(length)]
+
+        perm_itemsets = list(itertools.combinations(items, r=length))
+        for li in perm_itemsets:
+            missing_item = list(set(items) - set(list(li)))
+            other_item = sorted(list(li))
+            missing_percentage = C1[missing_item[0]]/((support/100) * transactions)
+            CK = temp_dict['\t'.join(other_item)]
+            other_percentage = CK/((support/100) * transactions)
+            print("Rule#  %d : %s ==> %s %d %d" %(num, missing_item, other_item, support, missing_percentage * 100))
+            num += 1
+            print("Rule#  %d : %s ==> %s %d %d" %(num, other_item, missing_item, support, other_percentage * 100))
+            num += 1
+    else:
+        missing_item = items[0]
+        other_item = items[1]
+        missing_percentage = C1[missing_item]/((support/100) * transactions)
+        other_percentage = C1[other_item]/((support/100) * transactions)
+        print("Rule#  %d : %s ==> %s %d %d" %(num, missing_item, other_item, support, missing_percentage * 100))
+        num += 1
+        print("Rule#  %d : %s ==> %s %d %d" %(num, other_item, missing_item, support, other_percentage * 100))
+        num += 1
