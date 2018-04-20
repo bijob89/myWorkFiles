@@ -58,6 +58,7 @@ def generate_all_asscoiation_rules(C1, D, transactions):
 
     num = 1
     for items in L:
+        print(items)
         if add_value_flag:
             if add_value not in items:
                 continue
@@ -72,28 +73,34 @@ def generate_all_asscoiation_rules(C1, D, transactions):
                 missing_percentage = support_value/C1[missing_item[0]]
                 CK = temp_dict[tuple(other_item)]
                 other_percentage = support_value/CK
-                count = len(missing_item)
+                # count = len(missing_item)
                 m_count = len(missing_item)
                 o_count = len(other_item)
-                if count == 1:
-                    key = missing_item[0]
-                    numerator = C1[key]
+                items_count = len(items)
+                items_key = 'C' + str(items_count)
+                items_temp = main_dict[items_key]
+                if m_count == 1:
+                    m_key = missing_item[0]
+                    m_numerator = C1[m_key]
                 else:
-                    key = 'C' + str(count)
-                    temp = main_dict[key]
-                    numerator = temp[tuple(sorted(missing_item))]
-                missing_support = numerator / transactions * 100
+                    m_key = 'C' + str(count)
+                    m_temp = main_dict[m_key]
+                    m_numerator = m_temp[tuple(sorted(missing_item))]
+                missing_support = m_numerator / transactions * 100
+                # count = len(other_item)
+                if o_count == 1:
+                    o_key = other_item[0]
+                    o_numerator = C1[o_key]
+                else:
+                    o_key = 'C' + str(count)
+                    o_temp = main_dict[o_key]
+                    o_numerator = o_temp[tuple(sorted(other_item))]
+                other_support = o_numerator/ transactions * 100
+                missing_percentage = items_temp[tuple(sorted(items))] / o_numerator * 100
+                other_percentage = items_temp[tuple(sorted(items))] / m_numerator * 100
                 print("Rule#  %d : %s ==> %s %d %d" %(num, missing_item, other_item, missing_support, missing_percentage * 100))
                 num += 1
-                count = len(other_item)
-                if count == 1:
-                    key = other_item[0]
-                    numerator = C1[key]
-                else:
-                    key = 'C' + str(count)
-                    temp = main_dict[key]
-                    numerator = temp[tuple(sorted(other_item))]
-                other_support = numerator/ transactions * 100
+                
                 print("Rule#  %d : %s ==> %s %d %d" %(num, other_item, missing_item, other_support, other_percentage * 100))
                 num += 1
         else:
@@ -108,7 +115,7 @@ def generate_all_asscoiation_rules(C1, D, transactions):
             num += 1
 
 add_value_flag = False
-f = open('testing.csv', 'r')
+f = open('student1.csv', 'r')
 fc = f.read().strip()
 C1 = {}
 D = []
@@ -116,7 +123,7 @@ transactions = 0        # to be made zero later
 if not add_value:
     print('This')
     for line in fc.split('\n'):
-        line_split = line.split(',')
+        line_split = line.split()
         transactions += 1
         D.append(line_split)
         for word in line_split:
@@ -128,7 +135,7 @@ if not add_value:
 else:
     add_value_flag = True
     for line in fc.split('\n'):
-        line_split = line.split(',')
+        line_split = line.split()
         if add_value in line_split:
             transactions += 1
             D.append(line_split)
